@@ -44,24 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: BlocListener<CounterCubit, CounterState>(
-          listener: (context, state) async {
-            if (state.wasIncremented == true) {
-              ScaffoldMessenger.of(context)
-                ..removeCurrentSnackBar()
-                ..showSnackBar(const SnackBar(
-                    content: Text("Value Incremented"),
-                    dismissDirection: DismissDirection.endToStart,
-                    duration: Duration(milliseconds: 100)));
-            } else if (state.wasIncremented == false) {
-              ScaffoldMessenger.of(context)
-                ..removeCurrentSnackBar()
-                ..showSnackBar(const SnackBar(
-                    content: Text("Value Decremented"),gi
-                    dismissDirection: DismissDirection.startToEnd,
-                    duration: Duration(milliseconds: 100)));
-            }
-          },
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -69,7 +52,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Counter Value',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              BlocBuilder<CounterCubit, CounterState>(
+              BlocConsumer<CounterCubit, CounterState>(
+                listener: (context, state) async {
+                  if (state.wasIncremented == true) {
+                    ScaffoldMessenger.of(context)
+                      ..removeCurrentSnackBar()
+                      ..showSnackBar(const SnackBar(
+                          content: Text("Value Incremented"),
+                          dismissDirection: DismissDirection.endToStart,
+                          duration: Duration(milliseconds: 100)));
+                  } else if (state.wasIncremented == false) {
+                    ScaffoldMessenger.of(context)
+                      ..removeCurrentSnackBar()
+                      ..showSnackBar(const SnackBar(
+                          content: Text("Value Decremented"),
+                          dismissDirection: DismissDirection.startToEnd,
+                          duration: Duration(milliseconds: 100)));
+                  }
+                },
                 builder: (context, state) {
                   if (state.counterValue < 0) {
                     return Text(
